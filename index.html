@@ -1,37 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Free Fire Lobby</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Free Fire Web</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="topbar">
-  <div class="logo">FREE FIRE</div>
-  <div class="money">💰 <span id="coins">500</span> | 💎 <span id="diamonds">10</span></div>
+  <h2>FREE FIRE</h2>
+  <div>💰 <span id="coins">1000</span> | 💎 <span id="diamonds">50</span></div>
 </div>
 
-<div class="container">
+<div class="game">
 
   <!-- MENU -->
-  <div class="sidebar">
-    <button onclick="cambiarSeccion('tienda')">🛒 TIENDA</button>
-    <button onclick="cambiarSeccion('personajes')">👤 PERSONAJES</button>
-    <button onclick="cambiarSeccion('armas')">🔫 ARMAS</button>
+  <div class="menu">
+    <button onclick="mostrar('inicio')">🏠 Inicio</button>
+    <button onclick="mostrar('tienda')">🛒 Tienda</button>
+    <button onclick="mostrar('inventario')">🎒 Inventario</button>
+    <button onclick="mostrar('personajes')">👤 Personajes</button>
   </div>
 
-  <!-- CENTRO -->
-  <div class="main">
-    <img id="character" src="https://i.imgur.com/8QZ8FQv.png">
-    <h2 id="texto">Bienvenido</h2>
-    <button class="start" onclick="iniciarJuego()">INICIAR</button>
-  </div>
+  <!-- CONTENIDO -->
+  <div class="contenido">
 
-  <!-- PANEL DERECHO -->
-  <div class="right">
-    <h3>RECOMPENSAS</h3>
-    <button onclick="ganarRecompensa()">🎁 Obtener</button>
+    <!-- INICIO -->
+    <div id="inicio" class="panel active">
+      <img id="char" src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png">
+      <h1>Bienvenido</h1>
+      <button onclick="jugar()" class="play">INICIAR</button>
+    </div>
+
+    <!-- TIENDA -->
+    <div id="tienda" class="panel">
+      <h2>Tienda</h2>
+      <button onclick="comprar()">Comprar arma (200)</button>
+    </div>
+
+    <!-- INVENTARIO -->
+    <div id="inventario" class="panel">
+      <h2>Inventario</h2>
+      <ul id="items"></ul>
+    </div>
+
+    <!-- PERSONAJES -->
+    <div id="personajes" class="panel">
+      <h2>Personajes</h2>
+      <button onclick="cambiarSkin()">Cambiar personaje</button>
+    </div>
+
   </div>
 
 </div>
