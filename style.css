@@ -1,0 +1,95 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url('https://i.imgur.com/V6b7Z9R.jpg') no-repeat center/cover;
+  color: white;
+}
+
+/* BARRA SUPERIOR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: rgba(0,0,0,0.7);
+}
+
+.logo {
+  font-weight: bold;
+  color: gold;
+}
+
+.money {
+  color: cyan;
+}
+
+/* CONTENEDOR */
+.container {
+  display: flex;
+  height: 90vh;
+}
+
+/* MENU */
+.sidebar {
+  width: 200px;
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 12px;
+  margin: 10px 0;
+  background: rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sidebar li:hover {
+  background: gold;
+  color: black;
+}
+
+/* CENTRO */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.character img {
+  width: 250px;
+}
+
+/* BOTON */
+.start {
+  background: gold;
+  border: none;
+  padding: 15px 60px;
+  font-size: 22px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.start:hover {
+  background: orange;
+}
+
+/* PANEL DERECHO */
+.right {
+  width: 250px;
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+  text-align: center;
+}
+
+.right img {
+  width: 100%;
+}
