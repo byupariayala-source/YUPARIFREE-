@@ -1,38 +1,44 @@
-let coins = 500;
-let diamonds = 10;
+let coins = 1000;
+let inventory = [];
 
-function actualizarUI() {
+function actualizar() {
   document.getElementById("coins").innerText = coins;
-  document.getElementById("diamonds").innerText = diamonds;
 }
 
-function cambiarSeccion(seccion) {
-  let texto = document.getElementById("texto");
+function mostrar(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
 
-  if (seccion === "tienda") {
-    texto.innerText = "🛒 Bienvenido a la tienda";
-  }
+function jugar() {
+  alert("🔥 Entrando a partida...");
+}
 
-  if (seccion === "personajes") {
-    texto.innerText = "👤 Selecciona tu personaje";
-  }
-
-  if (seccion === "armas") {
-    texto.innerText = "🔫 Escoge tu arma";
+function comprar() {
+  if (coins >= 200) {
+    coins -= 200;
+    inventory.push("Arma 🔫");
+    actualizar();
+    actualizarInventario();
+    alert("Compraste un arma");
+  } else {
+    alert("No tienes dinero");
   }
 }
 
-function iniciarJuego() {
-  alert("🔥 Entrando a la batalla...");
+function actualizarInventario() {
+  let lista = document.getElementById("items");
+  lista.innerHTML = "";
+  inventory.forEach(item => {
+    let li = document.createElement("li");
+    li.innerText = item;
+    lista.appendChild(li);
+  });
 }
 
-function ganarRecompensa() {
-  let premio = Math.floor(Math.random() * 100);
-
-  coins += premio;
-  diamonds += 1;
-
-  actualizarUI();
-
-  alert("🎁 Ganaste " + premio + " monedas y 1 diamante");
+function cambiarSkin() {
+  let img = document.getElementById("char");
+  img.src = img.src.includes("2922510")
+    ? "https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
+    : "https://cdn-icons-png.flaticon.com/512/2922/2922510.png";
 }
