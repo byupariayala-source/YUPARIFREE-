@@ -2,128 +2,166 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Mini Free Fire Web</title>
+<title>Escape de Flechas 🌊</title>
 
 <style>
 body {
   margin:0;
-  background:#0b0f1a;
-  color:white;
-  font-family:Arial;
-}
-
-/* BARRA */
-.topbar {
-  text-align:center;
-  padding:10px;
-  background:black;
-}
-
-/* VIDA */
-#vida {
-  color:red;
-  font-size:18px;
-}
-
-/* MAPA */
-.game-area {
-  width:100%;
-  height:90vh;
-  position:relative;
-  background:linear-gradient(#111, #222);
   overflow:hidden;
+  font-family:Arial;
+  color:white;
+}
+
+/* FONDO MAR */
+.game {
+  width:100%;
+  height:100vh;
+  position:relative;
+  background: linear-gradient(#0ea5e9, #022c43);
+}
+
+/* INTERFAZ */
+.ui {
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  z-index:10;
+}
+
+.ui h1 {
+  margin:0;
+}
+
+#score {
+  font-size:20px;
 }
 
 /* JUGADOR */
 #player {
-  width:80px;
+  width:60px;
   position:absolute;
-  top:200px;
-  left:200px;
-}
-
-/* BALAS */
-.bullet {
-  width:10px;
-  height:10px;
-  background:yellow;
-  position:absolute;
-  border-radius:50%;
-}
-
-/* ENEMIGOS */
-.enemy {
-  width:50px;
-  height:50px;
-  background:red;
-  position:absolute;
-  border-radius:50%;
-}
-
-/* GAME OVER */
-#gameOver {
-  position:absolute;
-  top:40%;
+  bottom:20px;
   left:50%;
-  transform:translate(-50%, -50%);
-  text-align:center;
-  display:none;
+  transform:translateX(-50%);
 }
 
-#gameOver button {
-  padding:10px 20px;
-  font-size:18px;
-  cursor:pointer;
+/* FLECHAS */
+.arrow {
+  width:40px;
+  height:40px;
+  position:absolute;
+  top:0;
 }
 </style>
 
 </head>
 <body>
 
-<div class="topbar">
-  <h2>🔥 MINI FREE FIRE 🔫</h2>
-  <p>WASD / Flechas = mover | ESPACIO = disparar</p>
-  <p id="vida">❤️ Vida: 100</p>
-</div>
+<div class="game" id="game">
 
-<div class="game-area" id="gameArea">
+  <div class="ui">
+    <h1>🌊 ESCAPA DE LAS FLECHAS</h1>
+    <div id="score">Puntaje: 0</div>
+  </div>
+
   <img id="player" src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png">
 
-  <!-- GAME OVER -->
-  <div id="gameOver">
-    <h1>💀 GAME OVER</h1>
-    <button onclick="reiniciar()">Reiniciar</button>
-  </div>
 </div>
 
 <script>
 const player = document.getElementById("player");
-const gameArea = document.getElementById("gameArea");
-const vidaTexto = document.getElementById("vida");
-const gameOverUI = document.getElementById("gameOver");
+const game = document.getElementById("game");
+const scoreText = document.getElementById("score");
 
-let x = 200;
-let y = 200;
-let speed = 10;
-let direction = "up";
-
-let enemies = [];
-let vida = 100;
+let x = window.innerWidth / 2;
+let speed = 15;
+let score = 0;
 let jugando = true;
+
+let arrows = [];
 
 // MOVIMIENTO
 document.addEventListener("keydown", (e) => {
 
   if (!jugando) return;
 
-  if (e.key === "w" || e.key === "ArrowUp") {
-    y -= speed;
-    direction = "up";
+  if (e.key === "a" || e.key === "ArrowLeft") {
+    x -= speed;
   }
 
-  if (e.key === "s" || e.key === "ArrowDown") {
-    y += speed;
-    direction = "down";
+  if (e.key === "d" || e.key === "ArrowRight") {
+    x += speed;
   }
 
-  if (e.key === "a" || e.key === "Arr
+  x = Math.max(0, Math.min(window.innerWidth - 60, x));
+  player.style.left = x + "px";
+});
+
+// CREAR FLECHAS
+function crearFlecha() {
+  if (!jugando) return;
+
+  const arrow = document.createElement("img");
+  arrow.src = "https://cdn-icons-png.flaticon.com/512/545/545682.png";
+  arrow.classList.add("arrow");
+
+  let ax = Math.random() * (window.innerWidth - 40);
+  let ay = 0;
+
+  arrow.style.left = ax + "px";
+  arrow.style.top = ay + "px";
+
+  game.appendChild(arrow);
+  arrows.push(arrow);
+
+  let caer = setInterval(() => {
+
+    if (!jugando) return;
+
+    ay += 8;
+    arrow.style.top = ay + "px";
+
+    // COLISION
+    if (colision(arrow, player)) {
+      gameOver();
+    }
+
+    // SUMAR PUNTOS SI PASA
+    if (ay > window.innerHeight) {
+      score++;
+      scoreText.innerText = "Puntaje: " + score;
+      arrow.remove();
+      clearInterval(caer);
+    }
+
+  }, 30);
+}
+
+// COLISION
+function colision(a, b) {
+  const r1 = a.getBoundingClientRect();
+  const r2 = b.getBoundingClientRect();
+
+  return !(
+    r1.top > r2.bottom ||
+    r1.bottom < r2.top ||
+    r1.right < r2.left ||
+    r1.left > r2.right
+  );
+}
+
+// GAME OVER
+function gameOver() {
+  jugando = false;
+  alert("💀 PERDISTE - Puntaje: " + score);
+  location.reload();
+}
+
+// GENERAR FLECHAS CONSTANTE
+setInterval(crearFlecha, 800);
+</script>
+
+</body>
+</html>
