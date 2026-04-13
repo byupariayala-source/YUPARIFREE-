@@ -2,56 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Free Fire Web</title>
+<title>Mini Juego</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="topbar">
-  <h2>FREE FIRE</h2>
-  <div>💰 <span id="coins">1000</span> | 💎 <span id="diamonds">50</span></div>
+  <h2>FREE FIRE WEB</h2>
 </div>
 
-<div class="game">
-
-  <!-- MENU -->
-  <div class="menu">
-    <button onclick="mostrar('inicio')">🏠 Inicio</button>
-    <button onclick="mostrar('tienda')">🛒 Tienda</button>
-    <button onclick="mostrar('inventario')">🎒 Inventario</button>
-    <button onclick="mostrar('personajes')">👤 Personajes</button>
-  </div>
-
-  <!-- CONTENIDO -->
-  <div class="contenido">
-
-    <!-- INICIO -->
-    <div id="inicio" class="panel active">
-      <img id="char" src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png">
-      <h1>Bienvenido</h1>
-      <button onclick="jugar()" class="play">INICIAR</button>
-    </div>
-
-    <!-- TIENDA -->
-    <div id="tienda" class="panel">
-      <h2>Tienda</h2>
-      <button onclick="comprar()">Comprar arma (200)</button>
-    </div>
-
-    <!-- INVENTARIO -->
-    <div id="inventario" class="panel">
-      <h2>Inventario</h2>
-      <ul id="items"></ul>
-    </div>
-
-    <!-- PERSONAJES -->
-    <div id="personajes" class="panel">
-      <h2>Personajes</h2>
-      <button onclick="cambiarSkin()">Cambiar personaje</button>
-    </div>
-
-  </div>
-
+<div class="game-area" id="gameArea">
+  <img id="player" src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png">
 </div>
 
 <script src="script.js"></script>
