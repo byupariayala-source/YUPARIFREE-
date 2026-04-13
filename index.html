@@ -19,6 +19,12 @@ body {
   background:black;
 }
 
+/* VIDA */
+#vida {
+  color:red;
+  font-size:18px;
+}
+
 /* MAPA */
 .game-area {
   width:100%;
@@ -53,23 +59,48 @@ body {
   position:absolute;
   border-radius:50%;
 }
+
+/* GAME OVER */
+#gameOver {
+  position:absolute;
+  top:40%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  text-align:center;
+  display:none;
+}
+
+#gameOver button {
+  padding:10px 20px;
+  font-size:18px;
+  cursor:pointer;
+}
 </style>
 
 </head>
 <body>
 
 <div class="topbar">
-  <h2>🔥 MINI FREE FIRE WEB 🔫</h2>
+  <h2>🔥 MINI FREE FIRE 🔫</h2>
   <p>WASD / Flechas = mover | ESPACIO = disparar</p>
+  <p id="vida">❤️ Vida: 100</p>
 </div>
 
 <div class="game-area" id="gameArea">
   <img id="player" src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png">
+
+  <!-- GAME OVER -->
+  <div id="gameOver">
+    <h1>💀 GAME OVER</h1>
+    <button onclick="reiniciar()">Reiniciar</button>
+  </div>
 </div>
 
 <script>
 const player = document.getElementById("player");
 const gameArea = document.getElementById("gameArea");
+const vidaTexto = document.getElementById("vida");
+const gameOverUI = document.getElementById("gameOver");
 
 let x = 200;
 let y = 200;
@@ -77,9 +108,13 @@ let speed = 10;
 let direction = "up";
 
 let enemies = [];
+let vida = 100;
+let jugando = true;
 
 // MOVIMIENTO
 document.addEventListener("keydown", (e) => {
+
+  if (!jugando) return;
 
   if (e.key === "w" || e.key === "ArrowUp") {
     y -= speed;
@@ -91,114 +126,4 @@ document.addEventListener("keydown", (e) => {
     direction = "down";
   }
 
-  if (e.key === "a" || e.key === "ArrowLeft") {
-    x -= speed;
-    direction = "left";
-  }
-
-  if (e.key === "d" || e.key === "ArrowRight") {
-    x += speed;
-    direction = "right";
-  }
-
-  if (e.code === "Space") {
-    disparar();
-  }
-
-  // LIMITES
-  x = Math.max(0, Math.min(window.innerWidth - 80, x));
-  y = Math.max(0, Math.min(window.innerHeight - 80, y));
-
-  player.style.left = x + "px";
-  player.style.top = y + "px";
-});
-
-// DISPARAR
-function disparar() {
-  const bullet = document.createElement("div");
-  bullet.classList.add("bullet");
-
-  let bx = x + 35;
-  let by = y + 35;
-
-  bullet.style.left = bx + "px";
-  bullet.style.top = by + "px";
-
-  gameArea.appendChild(bullet);
-
-  let intervalo = setInterval(() => {
-
-    if (direction === "up") by -= 10;
-    if (direction === "down") by += 10;
-    if (direction === "left") bx -= 10;
-    if (direction === "right") bx += 10;
-
-    bullet.style.left = bx + "px";
-    bullet.style.top = by + "px";
-
-    // COLISION
-    enemies.forEach((enemy, index) => {
-      if (colision(bullet, enemy)) {
-        enemy.remove();
-        bullet.remove();
-        enemies.splice(index, 1);
-        clearInterval(intervalo);
-      }
-    });
-
-    // ELIMINAR SI SALE
-    if (bx < 0 || bx > window.innerWidth || by < 0 || by > window.innerHeight) {
-      bullet.remove();
-      clearInterval(intervalo);
-    }
-
-  }, 30);
-}
-
-// CREAR ENEMIGOS
-function crearEnemigo() {
-  const enemy = document.createElement("div");
-  enemy.classList.add("enemy");
-
-  let ex = Math.random() * (window.innerWidth - 50);
-  let ey = Math.random() * (window.innerHeight - 50);
-
-  enemy.style.left = ex + "px";
-  enemy.style.top = ey + "px";
-
-  gameArea.appendChild(enemy);
-  enemies.push(enemy);
-
-  let mover = setInterval(() => {
-
-    let dx = x - ex;
-    let dy = y - ey;
-
-    ex += dx * 0.02;
-    ey += dy * 0.02;
-
-    enemy.style.left = ex + "px";
-    enemy.style.top = ey + "px";
-
-  }, 50);
-}
-
-// COLISION
-function colision(a, b) {
-  const r1 = a.getBoundingClientRect();
-  const r2 = b.getBoundingClientRect();
-
-  return !(
-    r1.top > r2.bottom ||
-    r1.bottom < r2.top ||
-    r1.right < r2.left ||
-    r1.left > r2.right
-  );
-}
-
-// GENERAR ENEMIGOS
-setInterval(crearEnemigo, 2000);
-</script>
-
-</body>
-</html>
+  if (e.key === "a" || e.key === "Arr
