@@ -1,44 +1,36 @@
-let coins = 1000;
-let inventory = [];
+const player = document.getElementById("player");
 
-function actualizar() {
-  document.getElementById("coins").innerText = coins;
-}
+let x = 200;
+let y = 200;
+let speed = 10;
 
-function mostrar(id) {
-  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
+// CONTROLES
+document.addEventListener("keydown", (e) => {
 
-function jugar() {
-  alert("🔥 Entrando a partida...");
-}
-
-function comprar() {
-  if (coins >= 200) {
-    coins -= 200;
-    inventory.push("Arma 🔫");
-    actualizar();
-    actualizarInventario();
-    alert("Compraste un arma");
-  } else {
-    alert("No tienes dinero");
+  if (e.key === "w" || e.key === "ArrowUp") {
+    y -= speed;
+    player.style.transform = "rotate(0deg)";
   }
-}
 
-function actualizarInventario() {
-  let lista = document.getElementById("items");
-  lista.innerHTML = "";
-  inventory.forEach(item => {
-    let li = document.createElement("li");
-    li.innerText = item;
-    lista.appendChild(li);
-  });
-}
+  if (e.key === "s" || e.key === "ArrowDown") {
+    y += speed;
+    player.style.transform = "rotate(180deg)";
+  }
 
-function cambiarSkin() {
-  let img = document.getElementById("char");
-  img.src = img.src.includes("2922510")
-    ? "https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
-    : "https://cdn-icons-png.flaticon.com/512/2922/2922510.png";
-}
+  if (e.key === "a" || e.key === "ArrowLeft") {
+    x -= speed;
+    player.style.transform = "rotate(-90deg)";
+  }
+
+  if (e.key === "d" || e.key === "ArrowRight") {
+    x += speed;
+    player.style.transform = "rotate(90deg)";
+  }
+
+  // LIMITES DEL MAPA
+  x = Math.max(0, Math.min(window.innerWidth - 80, x));
+  y = Math.max(0, Math.min(window.innerHeight - 80, y));
+
+  player.style.left = x + "px";
+  player.style.top = y + "px";
+});
