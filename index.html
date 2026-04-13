@@ -1,20 +1,74 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Mini Juego Shooter</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+const player = document.getElementById("player");
+const gameArea = document.getElementById("gameArea");
 
-<div class="topbar">
-  <h2>FREE FIRE WEB 🔫</h2>
-</div>
+let x = 200;
+let y = 200;
+let speed = 10;
+let direction = "up";
 
-<div class="game-area" id="gameArea">
-  <img id="player" src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png">
-</div>
+let enemies = [];
 
-<script src="script.js"></script>
-</body>
-</html>
+// MOVIMIENTO
+document.addEventListener("keydown", (e) => {
+
+  if (e.key === "w" || e.key === "ArrowUp") {
+    y -= speed;
+    direction = "up";
+  }
+
+  if (e.key === "s" || e.key === "ArrowDown") {
+    y += speed;
+    direction = "down";
+  }
+
+  if (e.key === "a" || e.key === "ArrowLeft") {
+    x -= speed;
+    direction = "left";
+  }
+
+  if (e.key === "d" || e.key === "ArrowRight") {
+    x += speed;
+    direction = "right";
+  }
+
+  if (e.code === "Space") {
+    disparar();
+  }
+
+  x = Math.max(0, Math.min(window.innerWidth - 80, x));
+  y = Math.max(0, Math.min(window.innerHeight - 80, y));
+
+  player.style.left = x + "px";
+  player.style.top = y + "px";
+});
+
+// DISPARAR
+function disparar() {
+  const bullet = document.createElement("div");
+  bullet.classList.add("bullet");
+
+  let bx = x + 35;
+  let by = y + 35;
+
+  bullet.style.left = bx + "px";
+  bullet.style.top = by + "px";
+
+  gameArea.appendChild(bullet);
+
+  let intervalo = setInterval(() => {
+
+    if (direction === "up") by -= 10;
+    if (direction === "down") by += 10;
+    if (direction === "left") bx -= 10;
+    if (direction === "right") bx += 10;
+
+    bullet.style.left = bx + "px";
+    bullet.style.top = by + "px";
+
+    // COLISION CON ENEMIGOS
+    enemies.forEach((enemy, index) => {
+      if (colision(bullet, enemy)) {
+        enemy.remove();
+        bullet.remove();
+        enemies.splice(index, 1);
+        clearInterval(interval
