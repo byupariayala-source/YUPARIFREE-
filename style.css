@@ -1,22 +1,20 @@
 body {
   margin:0;
   background:#0b0f1a;
-  font-family:Arial;
   color:white;
 }
 
 .topbar {
+  text-align:center;
   padding:10px;
   background:black;
-  text-align:center;
 }
 
-/* MAPA */
 .game-area {
   width:100%;
   height:90vh;
-  background:linear-gradient(#111, #222);
   position:relative;
+  background:linear-gradient(#111, #222);
   overflow:hidden;
 }
 
@@ -26,5 +24,13 @@ body {
   position:absolute;
   top:200px;
   left:200px;
-  transition: transform 0.1s;
+}
+
+/* BALAS */
+.bullet {
+  width:10px;
+  height:10px;
+  background:yellow;
+  position:absolute;
+  border-radius:50%;
 }
