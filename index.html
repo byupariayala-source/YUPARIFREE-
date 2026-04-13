@@ -1,3 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mini Free Fire Web</title>
+
+<style>
+body {
+  margin:0;
+  background:#0b0f1a;
+  color:white;
+  font-family:Arial;
+}
+
+/* BARRA */
+.topbar {
+  text-align:center;
+  padding:10px;
+  background:black;
+}
+
+/* MAPA */
+.game-area {
+  width:100%;
+  height:90vh;
+  position:relative;
+  background:linear-gradient(#111, #222);
+  overflow:hidden;
+}
+
+/* JUGADOR */
+#player {
+  width:80px;
+  position:absolute;
+  top:200px;
+  left:200px;
+}
+
+/* BALAS */
+.bullet {
+  width:10px;
+  height:10px;
+  background:yellow;
+  position:absolute;
+  border-radius:50%;
+}
+
+/* ENEMIGOS */
+.enemy {
+  width:50px;
+  height:50px;
+  background:red;
+  position:absolute;
+  border-radius:50%;
+}
+</style>
+
+</head>
+<body>
+
+<div class="topbar">
+  <h2>🔥 MINI FREE FIRE WEB 🔫</h2>
+  <p>WASD / Flechas = mover | ESPACIO = disparar</p>
+</div>
+
+<div class="game-area" id="gameArea">
+  <img id="player" src="https://cdn-icons-png.flaticon.com/512/2922/2922510.png">
+</div>
+
+<script>
 const player = document.getElementById("player");
 const gameArea = document.getElementById("gameArea");
 
@@ -35,6 +105,7 @@ document.addEventListener("keydown", (e) => {
     disparar();
   }
 
+  // LIMITES
   x = Math.max(0, Math.min(window.innerWidth - 80, x));
   y = Math.max(0, Math.min(window.innerHeight - 80, y));
 
@@ -65,10 +136,69 @@ function disparar() {
     bullet.style.left = bx + "px";
     bullet.style.top = by + "px";
 
-    // COLISION CON ENEMIGOS
+    // COLISION
     enemies.forEach((enemy, index) => {
       if (colision(bullet, enemy)) {
         enemy.remove();
         bullet.remove();
         enemies.splice(index, 1);
-        clearInterval(interval
+        clearInterval(intervalo);
+      }
+    });
+
+    // ELIMINAR SI SALE
+    if (bx < 0 || bx > window.innerWidth || by < 0 || by > window.innerHeight) {
+      bullet.remove();
+      clearInterval(intervalo);
+    }
+
+  }, 30);
+}
+
+// CREAR ENEMIGOS
+function crearEnemigo() {
+  const enemy = document.createElement("div");
+  enemy.classList.add("enemy");
+
+  let ex = Math.random() * (window.innerWidth - 50);
+  let ey = Math.random() * (window.innerHeight - 50);
+
+  enemy.style.left = ex + "px";
+  enemy.style.top = ey + "px";
+
+  gameArea.appendChild(enemy);
+  enemies.push(enemy);
+
+  let mover = setInterval(() => {
+
+    let dx = x - ex;
+    let dy = y - ey;
+
+    ex += dx * 0.02;
+    ey += dy * 0.02;
+
+    enemy.style.left = ex + "px";
+    enemy.style.top = ey + "px";
+
+  }, 50);
+}
+
+// COLISION
+function colision(a, b) {
+  const r1 = a.getBoundingClientRect();
+  const r2 = b.getBoundingClientRect();
+
+  return !(
+    r1.top > r2.bottom ||
+    r1.bottom < r2.top ||
+    r1.right < r2.left ||
+    r1.left > r2.right
+  );
+}
+
+// GENERAR ENEMIGOS
+setInterval(crearEnemigo, 2000);
+</script>
+
+</body>
+</html>
