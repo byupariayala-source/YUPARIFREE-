@@ -1,25 +1,22 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: url('https://i.imgur.com/V6b7Z9R.jpg') no-repeat center/cover;
+  font-family: Arial;
+  background: linear-gradient(135deg, #0f172a, #020617);
   color: white;
+  overflow: hidden;
 }
 
-/* BARRA SUPERIOR */
+/* BARRA */
 .topbar {
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 10px;
   background: rgba(0,0,0,0.7);
 }
 
 .logo {
-  font-weight: bold;
   color: gold;
-}
-
-.money {
-  color: cyan;
+  font-weight: bold;
 }
 
 /* CONTENEDOR */
@@ -31,24 +28,22 @@ body {
 /* MENU */
 .sidebar {
   width: 200px;
-  background: rgba(0,0,0,0.6);
+  background: rgba(255,255,255,0.05);
   padding: 20px;
 }
 
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar li {
-  padding: 12px;
+.sidebar button {
+  width: 100%;
   margin: 10px 0;
-  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.sidebar li:hover {
+.sidebar button:hover {
   background: gold;
   color: black;
 }
@@ -56,22 +51,28 @@ body {
 /* CENTRO */
 .main {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  position: relative;
 }
 
-.character img {
+/* PERSONAJE ANIMADO */
+#character {
   width: 250px;
+  animation: flotar 2s infinite ease-in-out;
+}
+
+@keyframes flotar {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
 }
 
 /* BOTON */
 .start {
   background: gold;
   border: none;
-  padding: 15px 60px;
-  font-size: 22px;
+  padding: 15px 50px;
+  font-size: 20px;
   margin-top: 20px;
   cursor: pointer;
   border-radius: 10px;
@@ -84,12 +85,6 @@ body {
 
 /* PANEL DERECHO */
 .right {
-  width: 250px;
-  background: rgba(0,0,0,0.6);
+  width: 200px;
   padding: 20px;
-  text-align: center;
-}
-
-.right img {
-  width: 100%;
 }
